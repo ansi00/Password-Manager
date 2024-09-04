@@ -42,7 +42,7 @@
         <div class="w-60 m-3 px-3 bg-blue-200 text-blue-800 rounded-lg text-sm">
             {{site.siteUrl}}
         </div>
-        <button class="my-3 ml-3 mx-0.5 px-5 py-3 text-sm bg-gray-900 text-white shadow rounded-md">
+        <button [routerLink]="['/password-list']" routerLinkActive="router-link-active"    class="my-3 ml-3 mx-0.5 px-5 py-3 text-sm bg-gray-900 text-white shadow rounded-md">
             Add New Password
         </button>
         <button (click)="editSite(site.siteName, site.siteUrl, site.siteImgURL, site.id)" class="my-3  mx-0.5 px-5 py-3 text-sm border-2 border-gray-900 text-gray-900  shadow rounded-md">

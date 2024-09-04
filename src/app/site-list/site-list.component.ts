@@ -3,6 +3,8 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { PasswordManagerService } from '../password-manager.service';
 import { Observable } from 'rxjs';
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { RouterModule } from '@angular/router';
+
 
 
 
@@ -10,7 +12,7 @@ import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 @Component({
   selector: 'app-site-list',
   standalone: true,
-  imports: [FormsModule,NgFor,AsyncPipe,NgIf],
+  imports: [FormsModule,NgFor,AsyncPipe,NgIf,RouterModule],
   templateUrl: './site-list.component.html',
   styleUrl: './site-list.component.css'
 })
