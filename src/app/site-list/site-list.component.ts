@@ -4,94 +4,88 @@ import { PasswordManagerService } from '../password-manager.service';
 import { Observable } from 'rxjs';
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { RouterModule } from '@angular/router';
-
-
-
-
+import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-site-list',
   standalone: true,
-  imports: [FormsModule,NgFor,AsyncPipe,NgIf,RouterModule],
+  imports: [FormsModule, NgFor, AsyncPipe, NgIf, RouterModule, NavbarComponent],
   templateUrl: './site-list.component.html',
-  styleUrl: './site-list.component.css'
+  styleUrl: './site-list.component.css',
 })
 export class SiteListComponent {
+  allSites!: Observable<Array<any>>;
 
-allSites !: Observable <Array<any>>
+  siteName!: string;
+  siteUrl!: string;
+  siteImgURL!: string;
+  siteId!: string;
 
-siteName !: string ;
-siteUrl !: string ;
-siteImgURL !: string ;
-siteId !: string ;
+  formState: string = 'Add New';
+  isSuccess: boolean = false;
+  successMessage: string = '';
 
-formState : string = 'Add New' ;
-isSuccess : boolean = false ;
-successMessage : string = '';
-
-constructor(private passwordManager : PasswordManagerService){
-  this.loadSites();
-}
-
-resetForm(){
-  this.siteName = '';
-  this.siteUrl = '';
-  this.siteImgURL = '';
-  this.formState = 'Add New';
-  this.siteId = '';
-}
-
-onSubmit(values:object){
-  if(this.formState == 'Add New'){
-    this.passwordManager.addSite(values)
-    .then(()=>{
-      this.showAlert('Data Saved Successfully!')
-      this.resetForm()
-      })
-      .catch(err => {
-        console.log(err);
-        
-      })
+  constructor(private passwordManager: PasswordManagerService) {
+    this.loadSites();
   }
-  else if (this.formState == 'Edit') {
-    this.passwordManager.updateSite(this.siteId, values)
-    .then(()=>{
-      this.showAlert('Data Updated Successfully!')
-      this.resetForm()
-      })
-      .catch(err => {
-        console.log(err);
-        
-      })
+
+  resetForm() {
+    this.siteName = '';
+    this.siteUrl = '';
+    this.siteImgURL = '';
+    this.formState = 'Add New';
+    this.siteId = '';
   }
-}
 
-loadSites(){
- this.allSites = this.passwordManager.loadSites()
-}
+  onSubmit(values: object) {
+    if (this.formState == 'Add New') {
+      this.passwordManager
+        .addSite(values)
+        .then(() => {
+          this.showAlert('Data Saved Successfully!');
+          this.resetForm();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else if (this.formState == 'Edit') {
+      this.passwordManager
+        .updateSite(this.siteId, values)
+        .then(() => {
+          this.showAlert('Data Updated Successfully!');
+          this.resetForm();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }
 
-editSite(siteName : string, siteURL : string, siteImgURL : string, id : string){
-this.siteName = siteName ;
-this.siteUrl = siteURL ;
-this.siteImgURL = siteImgURL ;
-this.siteId = id ;
-this.formState = "Edit"
-}
+  loadSites() {
+    this.allSites = this.passwordManager.loadSites();
+  }
 
-deleteSite(id : string){
-this.passwordManager.deleteSite(id)
-.then(()=>{
-  this.showAlert('Data Deleted Successfully!')
-  })
-  .catch(err => {
-    console.log(err);
-    
-  })
-}
+  editSite(siteName: string, siteURL: string, siteImgURL: string, id: string) {
+    this.siteName = siteName;
+    this.siteUrl = siteURL;
+    this.siteImgURL = siteImgURL;
+    this.siteId = id;
+    this.formState = 'Edit';
+  }
 
-showAlert(message : string){
-this.isSuccess = true ;
-this.successMessage = message ;
-}
+  deleteSite(id: string) {
+    this.passwordManager
+      .deleteSite(id)
+      .then(() => {
+        this.showAlert('Data Deleted Successfully!');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
+  showAlert(message: string) {
+    this.isSuccess = true;
+    this.successMessage = message;
+  }
 }
