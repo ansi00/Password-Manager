@@ -28,4 +28,26 @@ const docInstance = doc(this.firestore, 'sites', id);
       const docInstance = doc(this.firestore, 'sites', id);
      return deleteDoc(docInstance);
         }
+
+        // Password Queries
+
+        addPassword(data : object, siteId : string){
+          const dbInstance = collection(this.firestore, `sites/${siteId}/passwords`);
+          return addDoc(dbInstance, data);
+        }
+
+        loadPasswords(siteId : string){
+          const dbInstance = collection(this.firestore, `sites/${siteId}/passwords`);
+        return  collectionData(dbInstance, {idField : "id"});
+        }
+
+        updatePassword(siteId : string, passwordId : string , data : object){
+          const docInstance = doc(this.firestore, `sites/${siteId}/passwords`, passwordId);
+           return updateDoc(docInstance, data)
+              }
+
+              deletePassword(passwordId : string, siteId : string){
+                const docInstance = doc(this.firestore, `sites/${siteId}/passwords`, passwordId);
+                return deleteDoc(docInstance);
+              }
 }
